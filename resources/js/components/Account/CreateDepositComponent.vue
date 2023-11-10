@@ -9,22 +9,66 @@
     </p>
   </div>
   <div class="all_list">
-    <div style="width: 40%">
+    <div style="width: 40%; border: 1px solid rgba(0, 0, 0, 0.1)">
       <h1>Доступные средства</h1>
       <div><p>0.00 ₽</p></div>
       <p>
-        Доступные средства - это сумма на вашем персональном балансе, которая доступна как
-        для вывода так и для депозитирования
+        Доступные средства - это сумма на вашем персональном балансе, которая
+        доступна как для вывода так и для депозитирования
       </p>
       <h2>Ваши возможности:</h2>
       <div class="buttons">
         <button><i class="bx bx-wallet"></i> Пополнить свой баланс</button>
         <button><i class="bx bxs-bank"></i> Создать новый депозит</button>
-        <button><i class="bx bx-credit-card-front"></i> Вывести средства</button>
+        <button>
+          <i class="bx bx-credit-card-front"></i> Вывести средства
+        </button>
       </div>
     </div>
-    <div style="width: 60%">
+    <div style="width: 60%; border: 1px solid rgba(0, 0, 0, 0.1)">
       <h1>Ваша финансовая статистика</h1>
+      <div class="all_stats">
+        <div class="card">
+          <i class="bx bx-wallet" style="color: #0f9aee"></i>
+          <div>
+            <p>Всего пополнено:</p>
+            <p>Общая сумма внесенных Вами средств в компанию Avalon</p>
+          </div>
+          <div style="background-color: #e5f4fd">
+            <p style="color: #0f9aee">0 ₽</p>
+          </div>
+        </div>
+        <div class="card">
+          <i class="bx bx-trending-up" style="color: #0f9aee"></i>
+          <div>
+            <p>Всего выведено:</p>
+            <p>Общая сумма выведенных Вами средств</p>
+          </div>
+          <div style="background-color: #ffeff4">
+            <p style="color: #ff3c7e">0 ₽</p>
+          </div>
+        </div>
+        <div class="card">
+          <i class="bx bx-briefcase" style="color: #0f9aee"></i>
+          <div>
+            <p>Активные депозиты:</p>
+            <p>Общая сумма всех активных депозитов</p>
+          </div>
+          <div style="background-color: #ebfaeb">
+            <p style="color: #37c936">0 ₽</p>
+          </div>
+        </div>
+        <div class="card">
+          <i class="bx bx-group" style="color: #0f9aee"></i>
+          <div>
+            <p>Партнерская программа:</p>
+            <p>Общая сумма средств, заработанных по реферальной программе</p>
+          </div>
+          <div style="background-color: #f7f6fe">
+            <p style="color: #7774e7">0 ₽</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,13 +112,14 @@ div:nth-child(1) {
   gap: 30px;
   div {
     padding: 0;
-    width: max-content;
+    height: max-content;
     background: white;
     border-radius: 7px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+
     h1 {
       padding: 20px 0;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -118,6 +163,58 @@ div:nth-child(1) {
         cursor: pointer;
       }
     }
+  }
+}
+.all_stats {
+  display: flex;
+  flex-direction: column;
+  background: white !important;
+  .card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90% !important;
+    height: max-content;
+    background: #fff !important;
+    padding: 10px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    i {
+      font-size: 30px;
+    }
+    div:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fff !important;
+      p:nth-child(1) {
+        font-size: 16px;
+        color: #000;
+        font-weight: bold;
+        padding: 0;
+      }
+      p:nth-child(2) {
+        font-size: 14px;
+        color: #888da8;
+        padding: 0;
+      }
+    }
+    div:nth-child(3) {
+      width: 55px;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        font-size: 17px;
+        font-weight: bold;
+      }
+    }
+  }
+  .card:last-child {
+    margin-bottom: 20px;
+    border: none;
   }
 }
 </style>
