@@ -11,7 +11,8 @@ const router = new createRouter({
         { path: "/", component: RegisterComponent },
         { path: "/login", component: AuthComponent },
         { path: "/account/deposits", component: AccountView },
-        { path: "/account/create/deposits", component: AccountView }
+        { path: "/account/create/deposits", component: AccountView },
+        { path: "/account/balance/plus", component: AccountView },
     ],
 });
 

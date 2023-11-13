@@ -51,9 +51,11 @@
         <ul class="kaned-sakopa">
           <li><a class="link_name" href="#">Пополнить баланс</a></li>
           <li>
-            <a href="#"
+            <router-link
+              to="/account/balance/plus"
+              @click="url = '/account/balance/plus'"
               >Выбрать способ<br />
-              пополнения баланса</a
+              пополнения баланса</router-link
             >
           </li>
           <li>
@@ -139,6 +141,7 @@
       <div class="test">
         <DepositsComponentVue v-if="url == '/account/deposits'" />
         <CreateDepositComponentVue v-if="url == '/account/create/deposits'" />
+        <PlusBalanceComponentVue v-if="url == '/account/balance/plus'" />
         <FooterComponentVue />
       </div>
     </div>
@@ -151,6 +154,7 @@ import LogoComponentVue from "../LogoComponent.vue";
 import LogoNoTextComponentVue from "../LogoNoTextComponent.vue";
 import CreateDepositComponentVue from "./CreateDepositComponent.vue";
 import DepositsComponentVue from "./DepositsComponent.vue";
+import PlusBalanceComponentVue from "./PlusBalanceComponent.vue";
 
 export default {
   components: {
@@ -159,6 +163,7 @@ export default {
     DepositsComponentVue,
     CreateDepositComponentVue,
     FooterComponentVue,
+    PlusBalanceComponentVue,
   },
   data() {
     return {

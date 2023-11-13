@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('surname');
+            $table->integer('balance')->default(0);
             $table->string('role')->default(0);
             $table->rememberToken();
             $table->timestamps();
