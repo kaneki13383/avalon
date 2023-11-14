@@ -71,6 +71,26 @@
       </div>
     </div>
   </div>
+
+  <div class="history">
+    <h1>Список открытых и закрытых депозитов</h1>
+    <table>
+      <tr>
+        <th>Дата депозита, окончания</th>
+        <th>Вклад</th>
+        <th>Заработано</th>
+        <th>Период</th>
+        <th>Статус</th>
+      </tr>
+      <!-- <tr>
+        <td>Сумма</td>
+        <td>Дата</td>
+        <td>Платежная система</td>
+        <td>Номер транзакции</td>
+        <td>Статус</td>
+      </tr> -->
+    </table>
+  </div>
 </template>
 
 <script>
@@ -78,6 +98,49 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+.history {
+  background: white;
+  width: 93.5%;
+  margin-left: 2%;
+  height: max-content;
+  padding: 0px 20px 20px 20px;
+  margin-top: 20px;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  h1 {
+    padding: 20px 0 10px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #515365;
+    font-size: 18px;
+  }
+  table {
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+    tr th {
+      height: 50px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    td {
+      font-size: 15px;
+      text-align: center;
+      padding: 10px 0;
+    }
+    th,
+    td {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    tr td:last-child {
+      border-right: none;
+    }
+    tr th:last-child {
+      border-right: none;
+    }
+  }
+}
 div:nth-child(1) {
   background: white;
   padding: 16px 0 16px 30px;

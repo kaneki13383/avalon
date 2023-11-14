@@ -59,9 +59,11 @@
             >
           </li>
           <li>
-            <a href="#"
+            <router-link
+              to="/account/balance/plus/history"
+              @click="url = '/account/balance/plus/history'"
               >История пополнения<br />
-              баланса</a
+              баланса</router-link
             >
           </li>
         </ul>
@@ -83,9 +85,11 @@
             >
           </li>
           <li>
-            <a href="#"
+            <router-link
+              to="/account/balance/minus/history"
+              @click="url = '/account/balance/minus/history'"
               >История вывода<br />
-              средств</a
+              средств</router-link
             >
           </li>
         </ul>
@@ -94,17 +98,16 @@
         <div class="iocn-link">
           <a href="#">
             <i class="bx bx-file"></i>
-            <span class="link_name">Партнерская порограмма</span>
+            <span class="link_name">Партнерская программа</span>
           </a>
           <i class="bx bxs-chevron-down arrow"></i>
         </div>
         <ul class="kaned-sakopa">
-          <li><a class="link_name" href="#">Партнерская порограмма</a></li>
+          <li><a class="link_name" href="#">Партнерская программа</a></li>
           <li>
-            <a href="#">Партнерские ссылки</a>
-          </li>
-          <li>
-            <a href="#">Статистика партнеров</a>
+            <router-link to="/account/parents" @click="url = '/account/parents'"
+              >Партнерские ссылки</router-link
+            >
           </li>
         </ul>
       </li>
@@ -142,6 +145,13 @@
         <DepositsComponentVue v-if="url == '/account/deposits'" />
         <CreateDepositComponentVue v-if="url == '/account/create/deposits'" />
         <PlusBalanceComponentVue v-if="url == '/account/balance/plus'" />
+        <HistoryBalanceComponentVue
+          v-if="url == '/account/balance/plus/history'"
+        />
+        <HistoryBalanceMinusVue
+          v-if="url == '/account/balance/minus/history'"
+        />
+        <ParentsProgrammComponentVue v-if="url == '/account/parents'" />
         <FooterComponentVue />
       </div>
     </div>
@@ -154,6 +164,9 @@ import LogoComponentVue from "../LogoComponent.vue";
 import LogoNoTextComponentVue from "../LogoNoTextComponent.vue";
 import CreateDepositComponentVue from "./CreateDepositComponent.vue";
 import DepositsComponentVue from "./DepositsComponent.vue";
+import HistoryBalanceMinusVue from "./HistoryBalanceMinus.vue";
+import HistoryBalanceComponentVue from "./HistoryBalancePlusComponent.vue";
+import ParentsProgrammComponentVue from "./ParentsProgrammComponent.vue";
 import PlusBalanceComponentVue from "./PlusBalanceComponent.vue";
 
 export default {
@@ -164,6 +177,9 @@ export default {
     CreateDepositComponentVue,
     FooterComponentVue,
     PlusBalanceComponentVue,
+    HistoryBalanceComponentVue,
+    HistoryBalanceMinusVue,
+    ParentsProgrammComponentVue,
   },
   data() {
     return {
