@@ -6,7 +6,9 @@
   <div class="balance">
     <div>
       <p>Доступные средства</p>
-      <div><p>0.00 ₽</p></div>
+      <div>
+        <p>{{ me.balance }} ₽</p>
+      </div>
       <p>Введите сумму депозита:</p>
       <div>
         <input
@@ -18,7 +20,9 @@
         />
       </div>
       <p class="mini_text">Вы можете вложить от 100 ₽ до 30 000 000 ₽</p>
-      <button><i class="bx bx-like"></i> Создать депозит</button>
+      <button @click="CreateVklad()">
+        <i class="bx bx-like"></i> Создать депозит
+      </button>
     </div>
   </div>
   <h2>Персональная информация по депозиту</h2>
@@ -42,7 +46,7 @@
         <i class="bx bx-calendar" style="color: #0e99ee"></i>
         <div>
           <p>Дата окончания депозита</p>
-          <p>~10.11.2023 17:19 МСК</p>
+          <p>~{{ date }}</p>
         </div>
       </div>
     </div>
@@ -85,6 +89,9 @@
 </template>
 
 <script>
+import moment from "moment/min/moment-with-locales";
+
+moment.locale("ru");
 export default {
   props: ["tarif", "bonus", "capitalization"],
   data() {
@@ -92,6 +99,8 @@ export default {
       summ: null,
       profit: 0.0,
       itogo: 0.0,
+      me: [],
+      date: null,
     };
   },
   updated() {
@@ -136,6 +145,48 @@ export default {
       this.itogo = this.itogo + s;
       this.profit = this.itogo - this.summ;
     }
+  },
+  mounted() {
+    this.GetMe();
+    this.DateCount();
+  },
+  methods: {
+    GetMe() {
+      axios
+        .get("/api/getme")
+        .then((result) => {
+          this.me = result.data.content;
+        })
+        .catch((err) => {});
+    },
+    DateCount() {
+      if (this.tarif == "Вклад «на 24 часа»") {
+        this.date = moment().add(1, "days").format("YYYY-MM-DDTHH:mm:ss.sss");
+      }
+      if (this.tarif == "Вклад «на 7 дней»") {
+        this.date = moment().add(7, "days").format("YYYY-MM-DDTHH:mm:ss.sss");
+      }
+      if (this.tarif == "Вклад «на 14 дней»") {
+        this.date = moment().add(14, "days").format("YYYY-MM-DDTHH:mm:ss.sss");
+      }
+      if (this.tarif == "Вклад «на 28 дней»") {
+        this.date = moment().add(28, "days").format("YYYY-MM-DDTHH:mm:ss.sss");
+      }
+    },
+    CreateVklad() {
+      axios
+        .post("/api/create/vklad", {
+          summ: this.summ,
+          itogo: this.itogo,
+          profit: this.profit,
+          tarif: this.tarif,
+          date_end: this.date,
+        })
+        .then((res) => {
+          this.GetMe();
+          this.summ = null;
+        });
+    },
   },
 };
 </script>

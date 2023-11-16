@@ -11,7 +11,9 @@
   <div class="all_list">
     <div style="width: 40%; border: 1px solid rgba(0, 0, 0, 0.1)">
       <h1>Доступные средства</h1>
-      <div><p>0.00 ₽</p></div>
+      <div>
+        <p>{{ me.balance }} ₽</p>
+      </div>
       <p>
         Доступные средства - это сумма на вашем персональном балансе, которая
         доступна как для вывода так и для депозитирования
@@ -55,7 +57,7 @@
             <p>Общая сумма всех активных депозитов</p>
           </div>
           <div style="background-color: #ebfaeb">
-            <p style="color: #37c936">0 ₽</p>
+            <p style="color: #37c936">{{ summ_active }} ₽</p>
           </div>
         </div>
         <div class="card">
@@ -82,19 +84,71 @@
         <th>Период</th>
         <th>Статус</th>
       </tr>
-      <!-- <tr>
-        <td>Сумма</td>
-        <td>Дата</td>
-        <td>Платежная система</td>
-        <td>Номер транзакции</td>
-        <td>Статус</td>
-      </tr> -->
+      <tr v-for="my in vklad" :key="my">
+        <td>{{ my.date_end }}</td>
+        <td>{{ my.summ }} ₽</td>
+        <td>{{ my.profit }} ₽</td>
+        <td>{{ my.tarif }}</td>
+        <td>{{ my.status }}</td>
+      </tr>
     </table>
   </div>
 </template>
 
 <script>
-export default {};
+import moment from "moment/min/moment-with-locales";
+
+moment.locale("ru");
+export default {
+  data() {
+    return {
+      me: [],
+      vklad: [],
+      summ_active: 0,
+    };
+  },
+  mounted() {
+    // console.log(moment(str).isAfter("16/11/2023/1:27:12"));
+    this.GetMe();
+    this.GetMyVklad();
+    this.SummActiveDeposit();
+  },
+  methods: {
+    GetMe() {
+      axios
+        .get("/api/getme")
+        .then((result) => {
+          this.me = result.data.content;
+        })
+        .catch((err) => {});
+    },
+    GetMyVklad() {
+      axios.get("/api/my/vklad").then((res) => {
+        this.vklad = res.data;
+        for (let index = 0; index < this.vklad.length; index++) {
+          let str = moment().format("YYYY-MM-DDTHH:mm:ss.sss");
+          if (moment(str).isAfter(this.vklad[index].date_end) == true) {
+            console.log("Вы в if!");
+            axios.post("/api/return_profit", {
+              date_end: this.vklad[index].date_end,
+            });
+          }
+        }
+      });
+    },
+    SummActiveDeposit() {
+      axios.get("/api/my/vklad/summ").then((res) => {
+        console.log(res.data);
+        let arr = res.data;
+        let summ = 0;
+        for (let index = 0; index < arr.length; index++) {
+          summ += arr[index].summ;
+        }
+        this.summ_active = summ;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -264,12 +318,13 @@ div:nth-child(1) {
       }
     }
     div:nth-child(3) {
-      width: 55px;
-      height: 45px;
+      width: auto;
       display: flex;
       justify-content: center;
       align-items: center;
       p {
+        width: max-content;
+        padding: 10px;
         font-size: 17px;
         font-weight: bold;
       }

@@ -119,7 +119,7 @@
   <div class="balance">
     <h3>Доступные средства</h3>
     <div>
-      <p>0.00 ₽</p>
+      <p>{{ me.balance }} ₽</p>
     </div>
     <button><i class="bx bx-coin-stack"></i> Вывести средства</button>
   </div>
@@ -144,7 +144,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      me: [],
+    };
+  },
+  mounted() {
+    this.GetMe();
+  },
+  methods: {
+    GetMe() {
+      axios
+        .get("/api/getme")
+        .then((result) => {
+          this.me = result.data.content;
+          console.log(this.me);
+        })
+        .catch((err) => {});
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
