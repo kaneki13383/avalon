@@ -1,6 +1,8 @@
 <template>
   <div class="background">
-    <LogoComponent></LogoComponent>
+    <a href="http://127.0.0.1:5500/index.html"
+      ><LogoComponent></LogoComponent
+    ></a>
     <form>
       <h1>Вход</h1>
       <p>Войдите, чтобы продолжить</p>
@@ -68,7 +70,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("token")) {
-      this.$router.push("/account");
+      this.$router.push("/account/deposits");
     }
   },
   methods: {
@@ -79,8 +81,14 @@ export default {
           password: this.password,
         })
         .then((result) => {
-          localStorage.setItem("token", result.data["content"]);
-          this.$router.push("/account/deposits");
+          let role = result.data.user.role;
+          if (role == 0) {
+            localStorage.setItem("token", result.data["content"]);
+            this.$router.push("/account/deposits");
+          } else {
+            localStorage.setItem("token", result.data["content"]);
+            this.$router.push("/admin");
+          }
         })
         .catch((err) => {
           console.log(err);

@@ -6,12 +6,16 @@
     </div>
     <ul class="upegedsa">
       <li>
-        <a href="#">
+        <a href="http://127.0.0.1:5500/index.html">
           <i class="bx bx-chevrons-left"></i>
           <span class="link_name">Главная</span>
         </a>
         <ul class="kaned-sakopa blank">
-          <li><a class="link_name" href="#">Главная</a></li>
+          <li>
+            <a class="link_name" href="http://127.0.0.1:5500/index.html"
+              >Главная</a
+            >
+          </li>
         </ul>
       </li>
       <li>

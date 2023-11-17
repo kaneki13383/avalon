@@ -50,6 +50,7 @@ class CustomAuthController extends Controller
         return response()->json([
             'message' => 'Вы успешно вошли',
             'content' => $token,
+            'user' => $user
         ], 200);
     }
     public function logout()

@@ -50,7 +50,7 @@
       <h3>Ваша финансовая статистика:</h3>
       <p class="mini">Ваша ссылка для привлечения рефералов:</p>
       <div>
-        <p>https://avalon1.me/?ref=kaneki13383</p>
+        <p>https://avalon1.me/?ref={{ me.login }}</p>
       </div>
       <button><i class="bx bxs-copy"></i> Скопировать ссылку</button>
       <div class="cards">

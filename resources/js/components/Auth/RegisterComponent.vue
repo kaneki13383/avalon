@@ -1,6 +1,8 @@
 <template>
   <div class="background">
-    <LogoComponent></LogoComponent>
+    <a href="http://127.0.0.1:5500/index.html"
+      ><LogoComponent></LogoComponent
+    ></a>
     <form>
       <h1>Регистрация</h1>
       <p>
@@ -131,7 +133,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("token")) {
-      this.$router.push("/account");
+      this.$router.push("/account/deposits");
     }
   },
   methods: {
