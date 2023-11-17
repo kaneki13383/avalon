@@ -3,26 +3,36 @@
     <aside>
       <div><LogoComponentVue></LogoComponentVue></div>
       <ul>
-        <li><p>Главная</p></li>
-        <li><p>Пополнение баланса</p></li>
-        <li><p>Вывод кэша</p></li>
+        <li @click="page = 'main'">
+          <p><i class="bx bx-home"></i> Главная</p>
+        </li>
+        <li @click="page = 'plus'">
+          <p><i class="bx bx-wallet"></i> Пополнение баланса</p>
+        </li>
+        <li>
+          <p><i class="bx bx-credit-card-front"></i> Вывод кэша</p>
+        </li>
         <li @click="logout()">
-          <p>Выход</p>
+          <p><i class="bx bx-exit"></i> Выход</p>
         </li>
       </ul>
     </aside>
-    <MainComponentVue></MainComponentVue>
+    <MainComponentVue v-if="page == 'main'"></MainComponentVue>
+    <PlusBalanceVue v-if="page == 'plus'"></PlusBalanceVue>
   </div>
 </template>
 
 <script>
 import LogoComponentVue from "../../../components/LogoComponent.vue";
 import MainComponentVue from "../../../components/Admin/MainComponent.vue";
+import PlusBalanceVue from "../../../components/Admin/PlusBalance.vue";
 
 export default {
-  components: { MainComponentVue, LogoComponentVue },
+  components: { MainComponentVue, LogoComponentVue, PlusBalanceVue },
   data() {
-    return {};
+    return {
+      page: "main",
+    };
   },
   methods: {
     logout() {
@@ -40,7 +50,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 aside {
   width: 270px;
   height: 100vh;
@@ -60,12 +70,23 @@ aside div svg {
 }
 aside ul {
   margin-top: 30px;
+  padding-left: 15px;
+  li {
+    padding: 15px 0;
+  }
 }
 aside ul li p {
   color: white;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
   padding: 5px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  i {
+    font-size: 17px;
+  }
 }
 .main-content {
   display: flex;

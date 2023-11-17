@@ -53,7 +53,7 @@
         3. После того, как вы сделали перевод, нажмите кнопку «Подтвердить
         перевод»
       </p>
-      <button>
+      <button @click="SubmitPerevod()">
         <i class="bx bx-credit-card-front"></i> Подтвердить перевод
       </button>
     </div>
@@ -84,6 +84,16 @@ export default {
   methods: {
     Back() {
       window.location.reload();
+    },
+    SubmitPerevod() {
+      axios
+        .post("/api/application/create", {
+          bank: this.bank,
+          summ: this.balance,
+        })
+        .then((res) => {
+          window.location.reload();
+        });
     },
   },
 };

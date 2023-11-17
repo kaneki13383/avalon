@@ -38,6 +38,14 @@ class CustomAuthController extends Controller
             'content' => Auth::user()
         ]);
     }
+    public function get_all()
+    {
+        return User::where('id', '!=', Auth::user()->id)->get();
+    }
+    public function delete_user($id)
+    {
+        User::where('id', $id)->delete();
+    }
     public function login(Request $request)
     {
         if (!Auth::attempt($request->all())) {

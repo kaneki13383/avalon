@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\VkladController;
 use Illuminate\Http\Request;
@@ -29,3 +30,10 @@ Route::post('/create/vklad', [VkladController::class, 'create']);
 Route::get('/my/vklad', [VkladController::class, 'my_vklad']);
 Route::get('/my/vklad/summ', [VkladController::class, 'summ_active_deposit']);
 Route::post('/return_profit', [VkladController::class, 'end_vklad']);
+
+Route::get('/all_users', [CustomAuthController::class, 'get_all']);
+Route::delete('/delete/{id}', [CustomAuthController::class, 'delete_user']);
+
+Route::post('/application/create', [ApplicationController::class, 'create']);
+Route::get('/application/all', [ApplicationController::class, 'get']);
+Route::post('/application/accept', [ApplicationController::class, 'accept']);

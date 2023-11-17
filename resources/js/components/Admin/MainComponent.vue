@@ -1,7 +1,7 @@
 <template>
   <div class="content-admin">
     <div class="top">
-      <h1>Admin</h1>
+      <h1><i class="bx bxs-user-circle" style="color: #ffffff"></i> Admin</h1>
     </div>
     <div class="main-admin">
       <div class="first">
@@ -12,21 +12,27 @@
               <h2>96</h2>
               <p>Пополнений</p>
             </div>
-            <img src="img/cash24.png" alt="No Ethernet" />
+            <i class="bx bx-wallet" style="color: #37c936; font-size: 60px"></i>
           </div>
           <div>
             <div>
               <h2>85</h2>
               <p>Вывод</p>
             </div>
-            <img src="img/cash24.png" alt="No Ethernet" />
+            <i
+              class="bx bx-credit-card-front"
+              style="color: #ffcc00; font-size: 60px"
+            ></i>
           </div>
           <div>
             <div>
               <h2>115</h2>
               <p>Рефералы</p>
             </div>
-            <img src="img/cash24.png" alt="No Ethernet" />
+            <i
+              class="bx bxs-user-plus"
+              style="color: #0f9aee; font-size: 60px"
+            ></i>
           </div>
         </div>
         <div class="user-list">
@@ -41,23 +47,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>kek111</td>
-                <td>Иванов Андрей</td>
-                <td>ivanovtop@mail.ru</td>
-                <td><button>Удалить</button></td>
-              </tr>
-              <tr>
-                <td>kek111</td>
-                <td>Иванов Андрей</td>
-                <td>ivanovtop@mail.ru</td>
-                <td><button>Удалить</button></td>
-              </tr>
-              <tr>
-                <td>kek111</td>
-                <td>Иванов Андрей</td>
-                <td>ivanovtop@mail.ru</td>
-                <td><button>Удалить</button></td>
+              <tr v-for="user in users" :key="user">
+                <td>{{ user.login }}</td>
+                <td>{{ user.name }} {{ user.surname }}</td>
+                <td>{{ user.email }}</td>
+                <td><button @click="DeleteUser(user.id)">Удалить</button></td>
               </tr>
             </tbody>
           </table>
@@ -74,13 +68,15 @@
         <div class="news">
           <h3>Отмыли 2 млрд с мефа</h3>
           <p>
-            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я съел какашку
+            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я
+            съел какашку
           </p>
         </div>
         <div class="news">
           <h3>Отмыли 2 млрд с мефа</h3>
           <p>
-            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я съел какашку
+            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я
+            съел какашку
           </p>
         </div>
         <button class="more">Подробнее</button>
@@ -90,10 +86,31 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      users: [],
+    };
+  },
+  mounted() {
+    this.GetUsers();
+  },
+  methods: {
+    GetUsers() {
+      axios.get("/api/all_users").then((res) => {
+        this.users = res.data;
+      });
+    },
+    DeleteUser(id) {
+      axios.delete(`/api/delete/${id}`).then((res) => {
+        this.GetUsers();
+      });
+    },
+  },
+};
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .content-admin {
   width: 100%;
   height: 100%;
@@ -104,14 +121,20 @@ export default {};
   justify-content: end;
   align-items: center;
   width: 100%;
-  height: 95px;
+  height: 65px;
   background-color: #303644;
 }
 .top h1 {
   margin-right: 150px;
   color: #fff;
-  font-family: Montserrat;
   font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  i {
+    font-size: 30px;
+  }
 }
 .main-admin {
   display: flex;
@@ -121,7 +144,6 @@ export default {};
   text-align: center;
   margin: 35px 0;
   color: #000;
-  font-family: Montserrat;
   font-size: 25px;
   font-style: normal;
   font-weight: 700;
@@ -158,7 +180,6 @@ export default {};
 }
 .info > div > div h2 {
   color: #000;
-  font-family: Montserrat;
   font-size: 35px;
   font-style: normal;
   font-weight: 700;
@@ -167,7 +188,6 @@ export default {};
 .info > div > div p {
   margin-top: 10px;
   color: #9c96a9;
-  font-family: Montserrat;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -182,7 +202,6 @@ export default {};
 }
 .user-list h2 {
   color: #000;
-  font-family: Montserrat;
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 30px;
@@ -204,7 +223,6 @@ table tr td:last-child {
 table thead tr td {
   padding: 12px 0;
   color: #000;
-  font-family: Montserrat;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -212,7 +230,6 @@ table thead tr td {
 }
 table tbody tr td {
   color: #000;
-  font-family: Comfortaa;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -222,17 +239,43 @@ table tbody tr td {
 table tbody tr td button {
   width: 60%;
   border-radius: 12px;
-  border: none;
+  border: none !important;
   background: #f93a3a;
   padding: 6px;
   color: white;
   color: #fff;
   text-align: center;
-  font-family: Comfortaa;
   font-size: 13px;
   font-style: normal;
   cursor: pointer;
 }
+.user-list {
+  max-height: 509px;
+  overflow-y: auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(230, 230, 230);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+//   cursor: pointer;
+//   background: #1d1b31;
+// }
 .user-list div {
   display: flex;
   flex-direction: row;
@@ -245,9 +288,9 @@ table tbody tr td button {
   border-radius: 11px;
   background: #1d1b31;
   color: #fff;
+  border: none;
   font-weight: 700;
   text-align: center;
-  font-family: Montserrat;
   font-size: 16px;
   margin-top: 35px;
   text-align: center;
@@ -264,7 +307,6 @@ table tbody tr td button {
 }
 .last h2 {
   color: #000;
-  font-family: Montserrat;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -287,7 +329,6 @@ table tbody tr td button {
   border: 0.2px solid rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #8e8e8e;
-  font-family: Montserrat;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -305,10 +346,10 @@ table tbody tr td button {
   background: #1d1b31;
   color: #fff;
   text-align: center;
-  font-family: Montserrat;
   font-size: 13px;
   padding: 7px 33px;
   cursor: pointer;
+  border: none;
 }
 .news {
   width: 314px;
@@ -320,7 +361,6 @@ table tbody tr td button {
 }
 .news h3 {
   color: #000;
-  font-family: Montserrat;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -329,7 +369,6 @@ table tbody tr td button {
 }
 .news p {
   color: #8e8e8e;
-  font-family: Montserrat;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
