@@ -5,14 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css">
     <title>Laravel</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<style>
+
+</style>
 
 <body id="app">
 
-    <script src="js/script.js"></script>
 </body>
 
 </html>
