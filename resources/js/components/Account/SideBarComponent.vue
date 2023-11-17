@@ -35,7 +35,8 @@
             <router-link
               to="/account/create/deposits"
               @click="url = '/account/create/deposits'"
-              >Создать депозит</router-link
+              >Статистика аккаунта и <br />
+              список депозитов</router-link
             >
           </li>
         </ul>
@@ -79,9 +80,11 @@
         <ul class="kaned-sakopa">
           <li><a class="link_name" href="#">Вывести деньги</a></li>
           <li>
-            <a href="#"
+            <router-link
+              to="/account/balance/minus"
+              @click="url = '/account/balance/minus'"
               >Создать заявку на<br />
-              вывод средств</a
+              вывод средств</router-link
             >
           </li>
           <li>
@@ -125,18 +128,173 @@
   <section class="doma-sazdelun">
     <div class="domasa-konvaena">
       <!-- <span class="text">Открыть</span> -->
+      <div class="modal" v-if="modal == true">
+        <div class="modal_main">
+          <div class="modal_header">
+            <h2>Контактный центр</h2>
+            <i class="bx bx-x" @click="modal = false"></i>
+          </div>
+          <div class="modal_body">
+            <div class="first">
+              <p>
+                Подпишитесь на наши социальные сети чтобы <br />
+                всегда быть в курсе событий:
+              </p>
+              <div class="all">
+                <div class="card">
+                  <img src="/img/telegram-logo.png" alt="" />
+                  <div>
+                    <p>@Avalon_ltd</p>
+                    <a href="">подписаться</a>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="/img/VK.com-logo.png" alt="" />
+                  <div>
+                    <p>/avalon_ltd</p>
+                    <a href="">подписаться</a>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="/img/YouTube_play1.png" alt="" />
+                  <div>
+                    <p>Avalon</p>
+                    <a href="">подписаться</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="first">
+              <p>
+                Контакты консультантов и технической <br />
+                поддержки:
+              </p>
+              <div class="all">
+                <div class="card">
+                  <img src="/img/VK.com-logo.png" alt="" />
+                  <div>
+                    <p>/avalon_ltd</p>
+                    <a href="">написать</a>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="/img/email-logo-hi.png" alt="" />
+                  <div>
+                    <p>support@avalon.cc</p>
+                    <a href="">написать</a>
+                  </div>
+                </div>
+                <div class="card">
+                  <img src="/img/chatraio.png" alt="" />
+                  <div>
+                    <p>Live-консультант</p>
+                    <a href="">написать</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal_footer">
+            <button @click="modal = false">Закрыть окно</button>
+          </div>
+        </div>
+      </div>
       <header class="header">
         <div>
           <i class="bx bx-menu" style="z-index: 1"></i>
         </div>
         <div>
           <ul>
-            <li><i class="bx bx-phone-call bx-xs"></i> Контактный центр</li>
-            <li><i class="bx bx-bell bx-xs bx-tada"></i> Новости</li>
-            <li><i class="bx bx-message-detail bx-xs"></i> Отзывы</li>
+            <li @click="modal = true" style="cursor: pointer">
+              <i class="bx bx-phone-call bx-xs"></i>
+              <p class="adaptive">Контактный центр</p>
+            </li>
             <li>
-              <i class="bx bxs-user-circle bx-md"></i> Здравствуйте, {{ name }}
+              <i class="bx bx-bell bx-xs bx-tada"></i>
+              <p class="adaptive">Новости</p>
+            </li>
+            <li>
+              <i class="bx bx-message-detail bx-xs"></i>
+              <p class="adaptive">Отзывы</p>
+            </li>
+            <li
+              @click="
+                if (mini_modal == true) {
+                  mini_modal = false;
+                } else {
+                  mini_modal = true;
+                }
+              "
+              style="cursor: pointer"
+            >
+              <i class="bx bxs-user-circle bx-md"></i>
+              <p class="adaptive">Здравствуйте, {{ name }}</p>
               <i class="bx bx-chevron-down bx-sm"></i>
+            </li>
+          </ul>
+        </div>
+        <div class="mini_modal" v-if="mini_modal == true">
+          <ul>
+            <li>
+              <router-link
+                to="/account/deposits"
+                @click="url = '/account/deposits'"
+                ><i class="bx bxs-bank"></i> Создать депозит</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/create/deposits"
+                @click="url = '/account/create/deposits'"
+                ><i class="bx bx-dollar-circle"></i> Статистика аккаунта и
+                список депозитов</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/balance/plus"
+                @click="url = '/account/balance/plus'"
+                style="color: #45b300; font-weight: bold"
+                ><i class="bx bx-wallet"></i> Пополнить баланс</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/balance/plus/history"
+                @click="url = '/account/balance/plus/history'"
+                ><i class="bx bx-briefcase"></i> История пополнения
+                баланса</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/balance/minus"
+                @click="url = '/account/balance/minus'"
+                ><i class="bx bx-credit-card-front"></i> Вывести
+                средства</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/balance/minus/history"
+                @click="url = '/account/balance/minus/history'"
+                ><i class="bx bx-list-ul"></i> История вывода
+                средств</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                to="/account/parents"
+                @click="url = '/account/parents'"
+                ><i class="bx bx-file-blank"></i> Партнерская
+                программа</router-link
+              >
+            </li>
+            <li>
+              <a><i class="bx bx-cog"></i> Настройки профайла</a>
+            </li>
+            <li @click="logout()">
+              <a><i class="bx bx-power-off"></i> Выйти с аккаунта</a>
             </li>
           </ul>
         </div>
@@ -152,6 +310,7 @@
           v-if="url == '/account/balance/minus/history'"
         />
         <ParentsProgrammComponentVue v-if="url == '/account/parents'" />
+        <MinusBalanceComponent v-if="url == '/account/balance/minus'" />
         <FooterComponentVue />
       </div>
     </div>
@@ -166,6 +325,7 @@ import CreateDepositComponentVue from "./CreateDepositComponent.vue";
 import DepositsComponentVue from "./DepositsComponent.vue";
 import HistoryBalanceMinusVue from "./HistoryBalanceMinus.vue";
 import HistoryBalanceComponentVue from "./HistoryBalancePlusComponent.vue";
+import MinusBalanceComponent from "./MinusBalanceComponent.vue";
 import ParentsProgrammComponentVue from "./ParentsProgrammComponent.vue";
 import PlusBalanceComponentVue from "./PlusBalanceComponent.vue";
 
@@ -180,11 +340,14 @@ export default {
     HistoryBalanceComponentVue,
     HistoryBalanceMinusVue,
     ParentsProgrammComponentVue,
+    MinusBalanceComponent,
   },
   data() {
     return {
       name: "",
       url: "",
+      mini_modal: false,
+      modal: false,
     };
   },
   mounted() {
@@ -236,6 +399,164 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  display: flex;
+  .modal_main {
+    margin: 3% 0 0 20%;
+    border-radius: 7px;
+    width: auto;
+    height: max-content;
+    background: white;
+    .modal_header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 400px;
+      padding: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      h2 {
+        font-size: 18px;
+      }
+      i {
+        font-size: 20px;
+      }
+    }
+    .modal_body {
+      display: flex;
+      flex-direction: row;
+      .first {
+        width: 50%;
+        margin-top: 20px;
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-bottom: 20px;
+        .all {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          .card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            div {
+              display: flex;
+              flex-direction: column;
+              gap: 5px;
+            }
+            img {
+              width: 50px;
+            }
+            a {
+              color: #0c7bbe;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+    .modal_footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      button {
+        cursor: pointer;
+        float: right;
+        margin: 20px 20px 20px 0;
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 7px;
+        color: #515365;
+        transition: 0.5s;
+      }
+      button:hover {
+        background: #515365;
+        color: white;
+      }
+    }
+  }
+}
+@media screen and (max-width: 980px) {
+  .modal_main {
+    margin-left: 2% !important;
+  }
+}
+@media screen and (max-width: 800px) {
+  .modal .modal_main .modal_body {
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal_main {
+    width: 320px !important;
+  }
+  .first {
+    width: 100% !important;
+  }
+  .modal_main {
+    margin-left: 15% !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .modal_main {
+    margin-left: 2% !important;
+  }
+  .modal_header i {
+    display: none;
+  }
+  .modal_header h2 {
+    text-align: center;
+  }
+}
+.mini_modal {
+  position: fixed;
+  z-index: 2;
+  top: 63px;
+  right: 0;
+  width: 200px;
+  height: max-content;
+  background: #fff;
+  border-radius: 0 0 7px 7px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding-top: 15px;
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding-bottom: 15px;
+      a {
+        font-size: 14px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        color: #000;
+        text-decoration: none;
+        i {
+          font-size: 17px;
+          padding-left: 10px;
+        }
+      }
+    }
+    li:last-child {
+      border: none;
+    }
+  }
+}
 .test {
   position: absolute;
   top: 63px;
@@ -523,10 +844,43 @@ header {
   font-size: 26px;
   font-weight: 600;
 }
-@media (max-width: 420px) {
+@media screen and (max-width: 707px) {
+  .header div:nth-child(2) ul li {
+    p {
+      display: none;
+    }
+    i {
+      font-size: 20px !important;
+    }
+  }
   .kupaneg.close .upegedsa li .kaned-sakopa {
     display: none;
   }
+  .header {
+    width: 100%;
+  }
+  .kupaneg.close ~ .doma-sazdelun {
+    width: 100% !important;
+    left: 0 !important;
+  }
+  .header2 {
+    width: 100%;
+  }
+  .kupaneg.close {
+    display: none;
+  }
+  .kupaneg {
+    width: 58%;
+  }
+  .doma-sazdelun {
+    left: 88%;
+  }
+  .test {
+    width: 100%;
+    left: 0;
+  }
+}
+@media (max-width: 420px) {
 }
 .kupaneg {
   position: fixed;
@@ -762,9 +1116,22 @@ header {
   font-size: 26px;
   font-weight: 600;
 }
-@media (max-width: 420px) {
-  .kupaneg.close .upegedsa li .kaned-sakopa {
-    display: none;
+@media screen and (max-width: 425px) {
+}
+@media screen and (max-width: 375px) {
+  .kupaneg {
+    width: 56%;
+  }
+  .doma-sazdelun {
+    left: 90%;
+  }
+}
+@media screen and (max-width: 320px) {
+  .kupaneg {
+    width: 54%;
+  }
+  .doma-sazdelun {
+    left: 99%;
   }
 }
 </style>

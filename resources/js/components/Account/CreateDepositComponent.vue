@@ -128,7 +128,6 @@ export default {
         for (let index = 0; index < this.vklad.length; index++) {
           let str = moment().format("YYYY-MM-DDTHH:mm:ss.sss");
           if (moment(str).isAfter(this.vklad[index].date_end) == true) {
-            console.log("Вы в if!");
             axios.post("/api/return_profit", {
               date_end: this.vklad[index].date_end,
             });
@@ -333,6 +332,34 @@ div:nth-child(1) {
   .card:last-child {
     margin-bottom: 20px;
     border: none;
+  }
+}
+@media screen and (max-width: 865px) {
+  .all_list {
+    flex-direction: column;
+    div {
+      width: 100% !important;
+    }
+  }
+}
+@media screen and (max-width: 686px) {
+  .history {
+    overflow-x: scroll;
+    margin-left: 0;
+    table {
+      width: 600px;
+      overflow-x: scroll;
+    }
+  }
+  .all_stats .card {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .all_stats .card div:nth-child(2) {
+    align-items: center;
+  }
+  .all_list div h1 {
+    text-align: center;
   }
 }
 </style>

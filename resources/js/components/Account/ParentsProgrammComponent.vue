@@ -443,4 +443,36 @@ div:nth-child(1) {
     font-size: 13px;
   }
 }
+@media screen and (max-width: 895px) {
+  .all {
+    flex-direction: column;
+  }
+  .all div {
+    width: 100%;
+  }
+  .balance {
+    width: 320px;
+  }
+}
+@media screen and (max-width: 752px) {
+  .balance {
+    margin-left: 10px;
+  }
+}
+@media screen and (max-width: 686px) {
+  .history {
+    overflow-x: scroll;
+    margin-left: 0;
+    table {
+      width: 600px;
+      overflow-x: scroll;
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .all div {
+    width: 320px;
+    margin-left: -10px;
+  }
+}
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h2>Пополнение баланса</h2>
+    <h2>Создать заявку на вывод средств</h2>
     <p>
       <a href="">Главная</a>
       <i class="bx bx-chevron-right"></i> Личный кабинет
       <i class="bx bx-chevron-right"></i>
-      <span>Способ пополнения</span>
+      <span>Вывести деньги</span>
     </p>
   </div>
 
@@ -47,7 +47,7 @@
         <i class="bx bx-x" @click="modal = false"></i>
       </div>
       <div class="modal_body">
-        <h5>На карту какого банка Вам удобнее сделать перевод?</h5>
+        <h5>На карту какого банка Вам удобнее сделать вывод?</h5>
         <div class="banks">
           <div
             class="card"
@@ -94,33 +94,58 @@
   </div>
 
   <div class="modal" v-if="modal2 == true">
-    <div class="modal_main">
+    <div class="modal_main" id="modal2">
       <div class="modal_header">
-        <h4>Пополнить баланс через банковскую карту</h4>
+        <h4>Вывести деньги на банковскую карту</h4>
         <i class="bx bx-x" @click="modal2 = false"></i>
       </div>
       <div class="modal_body">
         <div class="msg">
+          <h6>Инструкция по выводу средств</h6>
+          <ul>
+            <li>
+              <i class="bx bx-caret-right"></i> Выберите платежную систему
+            </li>
+            <li>
+              <i class="bx bx-caret-right"></i> Введите сумму (минимальная сумма
+              для вывода - 100 ₽)
+            </li>
+            <li>
+              <i class="bx bx-caret-right"></i> Внимание! Убедитесь в
+              правильности Ваших платежных реквизитов
+            </li>
+          </ul>
           <p>
-            Максимальная сумма одного перевода — 500 000 руб. <br />
-            Количество переводов: неограниченно
+            В течение 24-х часов вы получите выплату на выбранный Вами
+            электронный кошелёк. <br />
+            Лимиты: В течении рабочего дня заявка на вывод средств может быть
+            создана один раз. Интервал между созданием заявок должен составлять
+            не менее 24-х часов.
           </p>
         </div>
-        <h5>Введите сумму пополнения:</h5>
+        <div class="balance">
+          <p>Доступные средства</p>
+          <div>
+            <p>{{ me.balance }} ₽</p>
+          </div>
+        </div>
+        <h5>Введите номер карты:</h5>
+        <input
+          type="number"
+          v-model="num_card"
+          min="100"
+          placeholder="Введите номер карты"
+        />
+        <h5>Введите сумму вывода:</h5>
         <input
           type="number"
           v-model="balance"
           min="100"
           placeholder="Введите сумму"
         />
-        <div class="banks">
-          <div class="summ" @click="balance = 2500">2500 ₽</div>
-          <div class="summ" @click="balance = 5000">5000 ₽</div>
-          <div class="summ" @click="balance = 15000">15000 ₽</div>
-          <div class="summ" @click="balance = 50000">50000 ₽</div>
-          <div class="summ" @click="balance = 100000">100000 ₽</div>
-        </div>
-        <button @click="GoNext()">Перейти к пополнению</button>
+        <button>
+          <i class="bx bx-check" style="color: #fff"></i> Вывести средства
+        </button>
       </div>
       <div class="modal_footer">
         <button @click="modal2 = false">Закрыть</button>
@@ -145,6 +170,7 @@ export default {
       modal2: false,
       balance: 1000,
       go: false,
+      me: [],
     };
   },
   updated() {
@@ -157,6 +183,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.GetMe();
+  },
   methods: {
     GoNext() {
       this.go = true;
@@ -164,11 +193,23 @@ export default {
       let pay = document.querySelector(".pay");
       pay.classList.add("none");
     },
+
+    GetMe() {
+      axios
+        .get("/api/getme")
+        .then((result) => {
+          this.me = result.data.content;
+        })
+        .catch((err) => {});
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+#modal2 {
+  margin-top: 20px;
+}
 .none {
   display: none !important;
 }
@@ -260,10 +301,10 @@ div:nth-child(1) {
   }
 }
 .modal {
-  position: fixed;
   background: rgba(0, 0, 0, 0.4);
   width: 100%;
-  height: 100vh;
+  height: 120vh;
+  position: absolute;
   top: 0px;
   display: flex;
   justify-content: center;
@@ -299,6 +340,52 @@ div:nth-child(1) {
         padding: 20px;
         background: rgb(222 222 222 / 22%);
         margin-top: 20px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16),
+          0 1px 10px 0 rgba(0, 0, 0, 0.12);
+        p {
+          width: auto;
+          color: #515365;
+        }
+        ul {
+          margin: 20px 0;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        ul li {
+          font-size: 14px;
+          color: #515365;
+          i {
+            color: #0f9aee;
+          }
+        }
+        h6 {
+          font-size: 18px;
+          text-align: center;
+          color: #515365;
+        }
+      }
+      .balance {
+        margin-top: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 7px;
+        p {
+          padding: 15px;
+          font-size: 18px;
+          color: #515365;
+        }
+        div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          background: #f7fafc;
+          p {
+            padding: 15px 0;
+            font-size: 20px;
+            color: #00c292;
+          }
+        }
       }
       h5 {
         font-size: 16px;
@@ -322,8 +409,17 @@ div:nth-child(1) {
         padding: 15px 30px;
         transition: 0.5s;
         border: none;
-        background: #ffd11a;
+        background: #37c936;
         margin-bottom: 20px;
+        margin-top: 20px;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        i {
+          font-size: 20px;
+        }
       }
       .banks {
         display: flex;
@@ -386,6 +482,7 @@ div:nth-child(1) {
     }
   }
 }
+
 @media screen and (max-width: 500px) {
   .pay {
     margin-left: 5px;
@@ -402,7 +499,7 @@ div:nth-child(1) {
 @media screen and (max-width: 890px) {
   .modal {
     justify-content: start;
-    height: 120vh;
+    height: 190vh;
   }
   .modal_main {
     width: 80% !important;

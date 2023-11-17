@@ -105,4 +105,15 @@ div:nth-child(1) {
     }
   }
 }
+
+@media screen and (max-width: 686px) {
+  .history {
+    overflow-x: scroll;
+    margin-left: 0;
+    table {
+      width: 600px;
+      overflow-x: scroll;
+    }
+  }
+}
 </style>

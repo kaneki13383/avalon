@@ -165,4 +165,12 @@ export default {
     }
   }
 }
+@media screen and (max-width: 1040px) {
+  .perevod_card {
+    flex-direction: column !important;
+  }
+  .bx-left-arrow-alt {
+    rotate: 90deg;
+  }
+}
 </style>
