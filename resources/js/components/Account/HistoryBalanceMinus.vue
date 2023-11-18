@@ -19,19 +19,35 @@
         <th>Номер транзакции</th>
         <th>Статус</th>
       </tr>
-      <!-- <tr>
-        <td>Сумма</td>
-        <td>Дата</td>
-        <td>Платежная система</td>
-        <td>Номер транзакции</td>
-        <td>Статус</td>
-      </tr> -->
+      <tr v-for="application in applications" :key="application">
+        <td>{{ application.summ }}</td>
+        <td>{{ application.created_at }}</td>
+        <td>{{ application.bank }}</td>
+        <td>{{ application.id }}</td>
+        <td>{{ application.status }}</td>
+      </tr>
     </table>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      applications: [],
+    };
+  },
+  mounted() {
+    this.GetOutputBalance();
+  },
+  methods: {
+    GetOutputBalance() {
+      axios.get("/api/balance/wait").then((res) => {
+        this.applications = res.data;
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

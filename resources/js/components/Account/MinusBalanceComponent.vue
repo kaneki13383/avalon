@@ -143,7 +143,7 @@
           min="100"
           placeholder="Введите сумму"
         />
-        <button>
+        <button @click="OutputBalance()">
           <i class="bx bx-check" style="color: #fff"></i> Вывести средства
         </button>
       </div>
@@ -152,17 +152,10 @@
       </div>
     </div>
   </div>
-  <PerevodOnCardComponentVue
-    v-if="go == true"
-    :bank="bank"
-    :balance="balance"
-  />
 </template>
 
 <script>
-import PerevodOnCardComponentVue from "./PerevodOnCardComponent.vue";
 export default {
-  components: { PerevodOnCardComponentVue },
   data() {
     return {
       modal: false,
@@ -170,6 +163,7 @@ export default {
       modal2: false,
       balance: 1000,
       go: false,
+      num_card: null,
       me: [],
     };
   },
@@ -201,6 +195,17 @@ export default {
           this.me = result.data.content;
         })
         .catch((err) => {});
+    },
+    OutputBalance() {
+      axios
+        .post("/api/output/balance", {
+          summ: this.balance,
+          card: this.num_card,
+          bank: this.bank,
+        })
+        .then((res) => {
+          this.GetMe();
+        });
     },
   },
 };

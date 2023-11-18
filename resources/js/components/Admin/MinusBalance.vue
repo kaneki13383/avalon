@@ -5,7 +5,7 @@
     </div>
     <div class="main-admin">
       <div class="first">
-        <h1>Заявки пользователей на пополнение</h1>
+        <h1>Заявки пользователей на вывод</h1>
         <div class="info">
           <div class="history">
             <h2>Заявки</h2>
@@ -14,7 +14,7 @@
                 <th>id Пользователя</th>
                 <th>Сумма</th>
                 <th>Банк</th>
-                <th>ФИО</th>
+                <th>Номер карты</th>
                 <th>Статус</th>
                 <th>Действие</th>
               </tr>
@@ -22,22 +22,16 @@
                 <td>{{ application.id_user }}</td>
                 <td>{{ application.summ }}</td>
                 <td>{{ application.bank }}</td>
-                <td>{{ application.name }}</td>
+                <td>{{ application.card }}</td>
                 <td>{{ application.status }}</td>
                 <td>
                   <button
-                    v-if="application.status != 'Принят'"
-                    @click="
-                      Accept(
-                        application.id_user,
-                        application.summ,
-                        application.id
-                      )
-                    "
+                    v-if="application.status != 'Завершен'"
+                    @click="Accept(application.id)"
                   >
                     Приянть
                   </button>
-                  <button v-if="application.status != 'Принят'">
+                  <button v-if="application.status != 'Завершен'">
                     Отклонить
                   </button>
                 </td>
@@ -62,15 +56,13 @@ export default {
   },
   methods: {
     GetApplications() {
-      axios.get("/api/application/all").then((res) => {
+      axios.get("/api/balance/all").then((res) => {
         this.applications = res.data;
       });
     },
-    Accept(id_user, balance, id) {
+    Accept(id) {
       axios
-        .post("/api/application/accept", {
-          id_user: id_user,
-          balance: balance,
+        .post("/api/balance/accept", {
           id: id,
         })
         .then((res) => {

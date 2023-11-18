@@ -37,7 +37,7 @@
             <p>Общая сумма внесенных Вами средств в компанию Avalon</p>
           </div>
           <div style="background-color: #e5f4fd">
-            <p style="color: #0f9aee">0 ₽</p>
+            <p style="color: #0f9aee">{{ balance_plus }} ₽</p>
           </div>
         </div>
         <div class="card">
@@ -47,7 +47,7 @@
             <p>Общая сумма выведенных Вами средств</p>
           </div>
           <div style="background-color: #ffeff4">
-            <p style="color: #ff3c7e">0 ₽</p>
+            <p style="color: #ff3c7e">{{ balance_minus }} ₽</p>
           </div>
         </div>
         <div class="card">
@@ -105,6 +105,8 @@ export default {
       me: [],
       vklad: [],
       summ_active: 0,
+      balance_plus: 0,
+      balance_minus: 0,
     };
   },
   mounted() {
@@ -112,6 +114,8 @@ export default {
     this.GetMe();
     this.GetMyVklad();
     this.SummActiveDeposit();
+    this.PlusBalanceSumm();
+    this.MinusBalanceSumm();
   },
   methods: {
     GetMe() {
@@ -144,6 +148,23 @@ export default {
           summ += arr[index].summ;
         }
         this.summ_active = summ;
+      });
+    },
+    PlusBalanceSumm() {
+      axios.get("/api/application/summ").then((res) => {
+        let aarr = res.data;
+        console.log(aarr);
+        for (let index = 0; index < aarr.length; index++) {
+          this.balance_plus += aarr[index].summ;
+        }
+      });
+    },
+    MinusBalanceSumm() {
+      axios.get("/api/balance/summ").then((res) => {
+        let aarr = res.data;
+        for (let index = 0; index < aarr.length; index++) {
+          this.balance_minus += aarr[index].summ;
+        }
       });
     },
   },

@@ -9,7 +9,7 @@
         <li @click="page = 'plus'">
           <p><i class="bx bx-wallet"></i> Пополнение баланса</p>
         </li>
-        <li>
+        <li @click="page = 'minus'">
           <p><i class="bx bx-credit-card-front"></i> Вывод кэша</p>
         </li>
         <li @click="logout()">
@@ -19,6 +19,7 @@
     </aside>
     <MainComponentVue v-if="page == 'main'"></MainComponentVue>
     <PlusBalanceVue v-if="page == 'plus'"></PlusBalanceVue>
+    <MinusBalance v-if="page == 'minus'" />
   </div>
 </template>
 
@@ -26,9 +27,15 @@
 import LogoComponentVue from "../../../components/LogoComponent.vue";
 import MainComponentVue from "../../../components/Admin/MainComponent.vue";
 import PlusBalanceVue from "../../../components/Admin/PlusBalance.vue";
+import MinusBalance from "../../../components/Admin/MinusBalance.vue";
 
 export default {
-  components: { MainComponentVue, LogoComponentVue, PlusBalanceVue },
+  components: {
+    MainComponentVue,
+    LogoComponentVue,
+    PlusBalanceVue,
+    MinusBalance,
+  },
   data() {
     return {
       page: "main",

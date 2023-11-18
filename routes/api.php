@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\OutputBalanceController;
 use App\Http\Controllers\VkladController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,3 +38,12 @@ Route::delete('/delete/{id}', [CustomAuthController::class, 'delete_user']);
 Route::post('/application/create', [ApplicationController::class, 'create']);
 Route::get('/application/all', [ApplicationController::class, 'get']);
 Route::post('/application/accept', [ApplicationController::class, 'accept']);
+
+Route::get('/application/get', [ApplicationController::class, 'get_user_application']);
+Route::get('/application/summ', [ApplicationController::class, 'summ_plus']);
+Route::post('/output/balance', [OutputBalanceController::class, 'create']);
+
+Route::get('/balance/wait', [OutputBalanceController::class, 'get_user_outputbalance']);
+Route::get('/balance/summ', [OutputBalanceController::class, 'summ_minus']);
+Route::get('/balance/all', [OutputBalanceController::class, 'all']);
+Route::post('/balance/accept', [OutputBalanceController::class, 'accept']);

@@ -24,16 +24,24 @@ class ApplicationController extends Controller
     {
         return Application::all();
     }
+    public function get_user_application()
+    {
+        return Application::where('id_user', Auth::user()->id)->get();
+    }
+    public function summ_plus()
+    {
+        return Application::where('id_user', Auth::user()->id)->where('status', 'Принят')->get();
+    }
     public function accept(Request $request)
     {
         Application::where('id', $request->input('id'))->update([
             'status' => 'Принят'
         ]);
-        $user = User::where('id', $request->input('id'))->first();
+        $user = User::where('id', $request->input('id_user'))->first();
 
         $balance = $user->balance + $request->input('balance');
 
-        User::where('id', $request->input('id'))->update([
+        User::where('id', $request->input('id_user'))->update([
             'balance' => $balance
         ]);
     }
