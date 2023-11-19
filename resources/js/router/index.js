@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from '../views/main/MainView.vue';
 import RegisterComponent from '../components/Auth/RegisterComponent.vue';
-import AccountView from '../views/main/account/AccountView.vue';
 import AuthComponent from '../components/Auth/AuthComponent.vue';
 import AdminView from '../views/main/admin/AdminView.vue'
 
@@ -18,6 +17,7 @@ const router = new createRouter({
     history: createWebHistory(),
     routes: [
         { path: "/", component: RegisterComponent },
+        { path: "/register", component: RegisterComponent },
         { path: "/login", component: AuthComponent },
         { path: "/account/deposits", component: DepositsComponent },
         { path: "/account/create/deposits", component: CreateDepositComponent },

@@ -1,5 +1,5 @@
 <template>
-  <div class="kupaneg">
+  <div class="kupaneg" v-if="token && this.$route.path != '/admin'">
     <div class="agotiptip-detaliza">
       <LogoComponentVue />
       <LogoNoTextComponentVue />
@@ -18,7 +18,11 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li
+        id="li1"
+        v-bind:class="{ showMenu: isActive }"
+        v-on:click="isActive = !isActive"
+      >
         <div class="iocn-link">
           <a href="#">
             <i class="bx bxs-bank"></i>
@@ -45,7 +49,10 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li
+        v-bind:class="{ showMenu: isActive1 }"
+        v-on:click="isActive1 = !isActive1"
+      >
         <div class="iocn-link">
           <a href="#">
             <i class="bx bx-wallet"></i>
@@ -73,7 +80,10 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li
+        v-bind:class="{ showMenu: isActive2 }"
+        v-on:click="isActive2 = !isActive2"
+      >
         <div class="iocn-link">
           <a href="#">
             <i class="bx bx-credit-card-front"></i>
@@ -101,7 +111,10 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li
+        v-bind:class="{ showMenu: isActive3 }"
+        v-on:click="isActive3 = !isActive3"
+      >
         <div class="iocn-link">
           <a href="#">
             <i class="bx bx-file"></i>
@@ -129,7 +142,7 @@
       </li>
     </ul>
   </div>
-  <section class="doma-sazdelun">
+  <section class="doma-sazdelun" v-if="token && this.$route.path != '/admin'">
     <div class="domasa-konvaena">
       <!-- <span class="text">Открыть</span> -->
       <div class="modal" v-if="modal == true">
@@ -205,7 +218,7 @@
       </div>
       <header class="header">
         <div>
-          <i class="bx bx-menu" style="z-index: 1"></i>
+          <i class="bx bx-menu" @click="Menu()" style="z-index: 1"></i>
         </div>
         <div>
           <ul>
@@ -291,35 +304,18 @@
         </div>
       </header>
       <div class="test">
-        <!-- <DepositsComponentVue v-if="url == '/account/deposits'" />
-        <CreateDepositComponentVue v-if="url == '/account/create/deposits'" />
-        <PlusBalanceComponentVue v-if="url == '/account/balance/plus'" />
-        <HistoryBalanceComponentVue
-          v-if="url == '/account/balance/plus/history'"
-        />
-        <HistoryBalanceMinusVue
-          v-if="url == '/account/balance/minus/history'"
-        />
-        <ParentsProgrammComponentVue v-if="url == '/account/parents'" />
-        <MinusBalanceComponent v-if="url == '/account/balance/minus'" /> -->
         <router-view></router-view>
         <FooterComponentVue />
       </div>
     </div>
   </section>
+  <router-view v-if="!token || this.$route.path === '/admin'"></router-view>
 </template>
 
 <script>
 import FooterComponentVue from "../../components/FooterComponent.vue";
 import LogoComponentVue from "../../components/LogoComponent.vue";
 import LogoNoTextComponentVue from "../../components/LogoNoTextComponent.vue";
-// import CreateDepositComponentVue from "./CreateDepositComponent.vue";
-// import DepositsComponentVue from "./DepositsComponent.vue";
-// import HistoryBalanceMinusVue from "./HistoryBalanceMinus.vue";
-// import HistoryBalanceComponentVue from "./HistoryBalancePlusComponent.vue";
-// import MinusBalanceComponent from "./MinusBalanceComponent.vue";
-// import ParentsProgrammComponentVue from "./ParentsProgrammComponent.vue";
-// import PlusBalanceComponentVue from "./PlusBalanceComponent.vue";
 
 export default {
   components: {
@@ -330,15 +326,22 @@ export default {
   data() {
     return {
       name: "",
-      url: "",
       mini_modal: false,
       modal: false,
+      token: "",
+      isActive: false,
+      isActive1: false,
+      isActive2: false,
+      isActive3: false,
     };
   },
-  mounted() {
-    this.GetMe();
-
-    this.url = window.location.pathname;
+  watch: {
+    $route() {
+      this.getToken();
+    },
+  },
+  updated() {
+    this.getToken();
     let arrow = document.querySelectorAll(".arrow");
     for (var i = 0; i < arrow.length; i++) {
       arrow[i].addEventListener("click", (e) => {
@@ -346,20 +349,41 @@ export default {
         arrowParent.classList.toggle("showMenu");
       });
     }
-    let kupaneg = document.querySelector(".kupaneg");
-    let kupanegBtn = document.querySelector(".bx-menu");
-    let svg = document.querySelector(".text");
-    let all_svg = document.getElementById("Шар_1");
-    let all_svg2 = document.getElementById("Шар_2");
-    let header = document.querySelector(".header");
-    kupanegBtn.addEventListener("click", () => {
+    // let kupaneg = document.querySelector(".kupaneg");
+    // let kupanegBtn = document.querySelector(".bx-menu");
+    // let svg = document.querySelector(".text");
+    // let all_svg = document.getElementById("Шар_1");
+    // let all_svg2 = document.getElementById("Шар_2");
+    // let header = document.querySelector(".header");
+    // kupanegBtn.addEventListener("click", () => {
+    //   kupaneg.classList.toggle("close");
+    //   all_svg2.classList.toggle("none");
+    //   all_svg.classList.toggle("size");
+    //   header.classList.toggle("header2");
+    // });
+  },
+  mounted() {
+    this.GetMe();
+  },
+  methods: {
+    Arrow() {
+      document.querySelector("li1").toggle("showMenu");
+    },
+    Menu() {
+      let kupaneg = document.querySelector(".kupaneg");
+      let kupanegBtn = document.querySelector(".bx-menu");
+      let svg = document.querySelector(".text");
+      let all_svg = document.getElementById("Шар_1");
+      let all_svg2 = document.getElementById("Шар_2");
+      let header = document.querySelector(".header");
       kupaneg.classList.toggle("close");
       all_svg2.classList.toggle("none");
       all_svg.classList.toggle("size");
       header.classList.toggle("header2");
-    });
-  },
-  methods: {
+    },
+    getToken() {
+      this.token = localStorage.getItem("token");
+    },
     logout() {
       axios
         .get("/api/logout")

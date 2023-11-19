@@ -46,7 +46,7 @@
       </div>
       <div>
         <button @click.prevent="Login()">Войти</button>
-        <router-link to="/">Регистрация</router-link>
+        <router-link to="/register">Регистрация</router-link>
       </div>
       <div>
         <span
