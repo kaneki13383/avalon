@@ -20,11 +20,20 @@
       </p>
       <h2>Ваши возможности:</h2>
       <div class="buttons">
-        <button><i class="bx bx-wallet"></i> Пополнить свой баланс</button>
-        <button><i class="bx bxs-bank"></i> Создать новый депозит</button>
-        <button>
+        <router-link
+          to="/account/balance/plus"
+          @click="url = '/account/balance/plus'"
+          ><i class="bx bx-wallet"></i> Пополнить свой баланс</router-link
+        >
+        <router-link to="/account/deposits" @click="url = '/account/deposits'"
+          ><i class="bx bxs-bank"></i> Создать новый депозит</router-link
+        >
+        <router-link
+          to="/account/balance/minus"
+          @click="url = '/account/balance/minus'"
+        >
           <i class="bx bx-credit-card-front"></i> Вывести средства
-        </button>
+        </router-link>
       </div>
     </div>
     <div style="width: 60%; border: 1px solid rgba(0, 0, 0, 0.1)">
@@ -110,7 +119,6 @@ export default {
     };
   },
   mounted() {
-    // console.log(moment(str).isAfter("16/11/2023/1:27:12"));
     this.GetMe();
     this.GetMyVklad();
     this.SummActiveDeposit();
@@ -288,7 +296,9 @@ div:nth-child(1) {
       justify-content: center;
       flex-wrap: wrap;
       margin-bottom: 20px;
-      button {
+      a {
+        text-decoration: none;
+        color: #000;
         background: white;
         border: 1.5px solid rgba(0, 0, 0, 0.1);
         border-radius: 7px;
