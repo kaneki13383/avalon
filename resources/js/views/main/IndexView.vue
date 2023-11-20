@@ -338,33 +338,13 @@ export default {
   watch: {
     $route() {
       this.getToken();
+      this.GetMe();
     },
   },
   updated() {
     this.getToken();
-    let arrow = document.querySelectorAll(".arrow");
-    for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener("click", (e) => {
-        let arrowParent = e.target.parentElement.parentElement;
-        arrowParent.classList.toggle("showMenu");
-      });
-    }
-    // let kupaneg = document.querySelector(".kupaneg");
-    // let kupanegBtn = document.querySelector(".bx-menu");
-    // let svg = document.querySelector(".text");
-    // let all_svg = document.getElementById("Шар_1");
-    // let all_svg2 = document.getElementById("Шар_2");
-    // let header = document.querySelector(".header");
-    // kupanegBtn.addEventListener("click", () => {
-    //   kupaneg.classList.toggle("close");
-    //   all_svg2.classList.toggle("none");
-    //   all_svg.classList.toggle("size");
-    //   header.classList.toggle("header2");
-    // });
   },
-  mounted() {
-    this.GetMe();
-  },
+  mounted() {},
   methods: {
     Arrow() {
       document.querySelector("li1").toggle("showMenu");

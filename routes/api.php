@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OutputBalanceController;
+use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\VkladController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,3 +49,11 @@ Route::get('/balance/wait', [OutputBalanceController::class, 'get_user_outputbal
 Route::get('/balance/summ', [OutputBalanceController::class, 'summ_minus']);
 Route::get('/balance/all', [OutputBalanceController::class, 'all']);
 Route::post('/balance/accept', [OutputBalanceController::class, 'accept']);
+
+Route::post('/create/news', [NewsController::class, 'create']);
+Route::get('/news/all', [NewsController::class, 'all']);
+Route::delete('/news/delete/{id}', [NewsController::class, 'delete']);
+
+Route::get('/reviews/all', [ReviewsController::class, 'all']);
+Route::delete('/reviews/delete/{id}', [ReviewsController::class, 'delete']);
+Route::post('/reviews/create', [ReviewsController::class, 'create']);

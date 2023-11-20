@@ -12,6 +12,12 @@
         <li @click="page = 'minus'">
           <p><i class="bx bx-credit-card-front"></i> Вывод кэша</p>
         </li>
+        <li @click="page = 'reviews'">
+          <p>
+            <i class="bx bx-message-square-dots" style="color: #ffffff"></i>
+            Отзывы
+          </p>
+        </li>
         <li @click="logout()">
           <p><i class="bx bx-exit"></i> Выход</p>
         </li>
@@ -20,6 +26,7 @@
     <MainComponentVue v-if="page == 'main'"></MainComponentVue>
     <PlusBalanceVue v-if="page == 'plus'"></PlusBalanceVue>
     <MinusBalance v-if="page == 'minus'" />
+    <ReviewsComponentVue v-if="page == 'reviews'" />
   </div>
 </template>
 
@@ -28,6 +35,7 @@ import LogoComponentVue from "../../../components/LogoComponent.vue";
 import MainComponentVue from "../../../components/Admin/MainComponent.vue";
 import PlusBalanceVue from "../../../components/Admin/PlusBalance.vue";
 import MinusBalance from "../../../components/Admin/MinusBalance.vue";
+import ReviewsComponentVue from "../../../components/Admin/ReviewsComponent.vue";
 
 export default {
   components: {
@@ -35,6 +43,7 @@ export default {
     LogoComponentVue,
     PlusBalanceVue,
     MinusBalance,
+    ReviewsComponentVue,
   },
   data() {
     return {

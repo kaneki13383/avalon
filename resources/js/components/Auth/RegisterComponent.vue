@@ -9,7 +9,7 @@
         Уже есть аккаунт?
         <router-link to="/login">Авторизироваться</router-link>
       </p>
-      <div>
+      <div :class="{ error: v$.login.$errors.length }">
         <label for="">логин</label>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,9 +26,16 @@
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
-        <input type="text" v-model="login" placeholder="Ваш логин" />
+        <input type="text" v-model="v$.login.$model" placeholder="Ваш логин" />
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.login.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
-      <div>
+      <div :class="{ error: v$.email.$errors.length }">
         <label for="">e-mail</label>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -45,9 +52,20 @@
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>
         </svg>
-        <input type="email" v-model="email" placeholder="Ваш e-mail" />
+        <input
+          type="email"
+          v-model="v$.email.$model"
+          placeholder="Ваш e-mail"
+        />
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.email.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
-      <div>
+      <div :class="{ error: v$.password.$errors.length }">
         <label for="">пароль</label>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -64,9 +82,20 @@
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
-        <input type="password" v-model="password" placeholder="Ваш пароль" />
+        <input
+          type="password"
+          v-model="v$.password.$model"
+          placeholder="Ваш пароль"
+        />
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.password.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
-      <div>
+      <div :class="{ error: v$.name.$errors.length }">
         <label for="">имя</label>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -83,9 +112,16 @@
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
-        <input type="text" v-model="name" placeholder="Ваше имя" />
+        <input type="text" v-model="v$.name.$model" placeholder="Ваше имя" />
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.name.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
-      <div>
+      <div :class="{ error: v$.surname.$errors.length }">
         <label for="">фамилия</label>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +138,18 @@
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
-        <input type="text" v-model="surname" placeholder="Ваша фамилия" />
+        <input
+          type="text"
+          v-model="v$.surname.$model"
+          placeholder="Ваша фамилия"
+        />
+        <div
+          class="input-errors"
+          v-for="(error, index) of v$.surname.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
       <div>
         <input type="checkbox" name="" id="" />
@@ -119,9 +166,22 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required, email, minLength, helpers } from "@vuelidate/validators";
+
+export function validName(name) {
+  let validNamePattern = new RegExp("^[а-яА-Я]+(?:[-'\\s][а-яА-Я]+)*$");
+  if (validNamePattern.test(name)) {
+    return true;
+  }
+  return false;
+}
 import LogoComponent from "../LogoComponent.vue";
 export default {
   components: { LogoComponent },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       login: "",
@@ -129,6 +189,60 @@ export default {
       password: "",
       name: "",
       surname: "",
+    };
+  },
+  validations() {
+    return {
+      email: {
+        required: helpers.withMessage(
+          "Обязательное поле для заполнения",
+          required
+        ),
+        email: helpers.withMessage(
+          "Значение не является действительным адресом электронной почты",
+          email
+        ),
+      },
+      login: {
+        required: helpers.withMessage(
+          "Обязательное поле для заполнения",
+          required
+        ),
+        min: helpers.withMessage(
+          "Минимальное количество символов 3",
+          minLength(3)
+        ),
+      },
+      name: {
+        required: helpers.withMessage(
+          "Обязательное поле для заполнения",
+          required
+        ),
+        min: helpers.withMessage(
+          "Минимальное количество символов 2",
+          minLength(2)
+        ),
+      },
+      surname: {
+        required: helpers.withMessage(
+          "Обязательное поле для заполнения",
+          required
+        ),
+        min: helpers.withMessage(
+          "Минимальное количество символов 3",
+          minLength(3)
+        ),
+      },
+      password: {
+        required: helpers.withMessage(
+          "Обязательное поле для заполнения",
+          required
+        ),
+        min: helpers.withMessage(
+          "Минимальное количество символов 8",
+          minLength(8)
+        ),
+      },
     };
   },
   mounted() {
@@ -156,6 +270,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.input-errors {
+  padding: 5px 0 0 0 !important;
+  margin: 0 !important;
+}
+.error-msg {
+  color: red;
+  font-size: 12px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 .background {
   background-image: url("/public/img/auth-bg.jpg");
   width: 100%;

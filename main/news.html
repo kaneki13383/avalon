@@ -218,9 +218,20 @@
                             <!-- VK Widget -->
                             <div id="vk_groups"></div>
                             <script type="text/javascript">
-                                VK.Widgets.Group("vk_groups", { mode: 4, wide: 1, width: "auto", height: "1500" }, 194997689);
+                                fetch('http://127.0.0.1:8000/api/news/all')
+                                    .then(data => {
+                                        return data.json();
+                                    })
+                                    .then(data => {
+                                        console.log(data);
+                                        let list = document.querySelector('#vk_groups');
+                                        for (let i = 0; i < data.length; i++) {
+                                            list.innerHTML += '<h2 style="font-size: 30px">' + data[i].title + '</h2>'
+                                            list.innerHTML += '<p>' + data[i].text + '</p>'
+                                            list.innerHTML += `<img style="margin: 0px 0 20px 0;" src="http://127.0.0.1:8000/` + data[i].img + `">`
+                                        }
+                                    })
                             </script>
-
                             <div class="action-buttons">
                                 <div class="line line-1">
                                     <a href="faq.html" class="btn news">FAQ</a>
@@ -547,19 +558,19 @@
 
     <!-- Begin of Chaport Live Chat code -->
     <script type="text/javascript">
-        (function (w, d, v3) {
-            w.chaportConfig = {
-                appId: '5ec9725a1db3487e5211275c',
-                visitor: {
-                    notes: '',
-                    custom: {
-                        login: ""
+            (function (w, d, v3) {
+                w.chaportConfig = {
+                    appId: '5ec9725a1db3487e5211275c',
+                    visitor: {
+                        notes: '',
+                        custom: {
+                            login: ""
+                        }
                     }
-                }
-            };
+                };
 
-            if (w.chaport) return; v3 = w.chaport = {}; v3._q = []; v3._l = {}; v3.q = function () { v3._q.push(arguments) }; v3.on = function (e, fn) { if (!v3._l[e]) v3._l[e] = []; v3._l[e].push(fn) }; var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://app.chaport.com/javascripts/insert.js'; var ss = d.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss)
-        })(window, document);
+                if (w.chaport) return; v3 = w.chaport = {}; v3._q = []; v3._l = {}; v3.q = function () { v3._q.push(arguments) }; v3.on = function (e, fn) { if (!v3._l[e]) v3._l[e] = []; v3._l[e].push(fn) }; var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://app.chaport.com/javascripts/insert.js'; var ss = d.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss)
+            })(window, document);
     </script>
     <!-- End of Chaport Live Chat code -->
 

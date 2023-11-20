@@ -61,25 +61,32 @@
       <div class="last">
         <h2>Новости</h2>
         <form action="">
-          <input type="text" placeholder="Заголовок" />
-          <textarea cols="30" rows="6" placeholder="Ваш текст"></textarea>
-          <button type="submit">Опубликовать</button>
+          <input type="text" v-model="title" placeholder="Заголовок" />
+          <textarea
+            cols="30"
+            rows="6"
+            v-model="text"
+            placeholder="Ваш текст"
+          ></textarea>
+          <input
+            type="file"
+            id="file"
+            ref="file"
+            v-on:change="handleFileUpload()"
+          />
+          <button type="submit" @click.prevent="CreateNews()">
+            Опубликовать
+          </button>
         </form>
-        <div class="news">
-          <h3>Отмыли 2 млрд с мефа</h3>
+        <div class="news" v-for="ne in news" :key="ne">
+          <h3>{{ ne.title }}</h3>
           <p>
-            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я
-            съел какашку
+            {{ ne.text }}
           </p>
+          <img :src="ne.img" alt="" />
+          <button @click="DeleteNews(ne.id)">Удалить</button>
         </div>
-        <div class="news">
-          <h3>Отмыли 2 млрд с мефа</h3>
-          <p>
-            Да да да это мистер пидорарти и решил попробоватьсвой продукт. Я
-            съел какашку
-          </p>
-        </div>
-        <button class="more">Подробнее</button>
+        <!-- <button class="more">Подробнее</button> -->
       </div>
     </div>
   </div>
@@ -90,10 +97,15 @@ export default {
   data() {
     return {
       users: [],
+      title: "",
+      text: "",
+      file: null,
+      news: [],
     };
   },
   mounted() {
     this.GetUsers();
+    this.GetNews();
   },
   methods: {
     GetUsers() {
@@ -101,9 +113,37 @@ export default {
         this.users = res.data;
       });
     },
+    GetNews() {
+      axios.get("/api/news/all").then((res) => {
+        this.news = res.data;
+      });
+    },
     DeleteUser(id) {
       axios.delete(`/api/delete/${id}`).then((res) => {
         this.GetUsers();
+      });
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+    CreateNews() {
+      let formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("text", this.text);
+      formData.append("file", this.file);
+      axios
+        .post("/api/create/news", formData, {
+          Headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          this.GetNews();
+        });
+    },
+    DeleteNews(id) {
+      axios.delete(`/api/news/delete/${id}`).then((res) => {
+        this.GetNews();
       });
     },
   },
@@ -303,7 +343,7 @@ table tbody tr td button {
   box-shadow: 0px 0px 13px 4px rgba(0, 0, 0, 0.1);
   margin-top: 100px;
   margin-right: 40px;
-  height: 677px;
+  height: max-content;
 }
 .last h2 {
   color: #000;
@@ -367,12 +407,27 @@ table tbody tr td button {
   line-height: normal;
   margin-bottom: 10px;
 }
+.news button {
+  border-radius: 12px;
+  border: none !important;
+  background: #f93a3a;
+  padding: 6px;
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  cursor: pointer;
+}
 .news p {
   color: #8e8e8e;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+.news img {
+  width: 300px;
+  margin-top: 20px;
 }
 .last .more {
   margin-left: 40px;

@@ -17,19 +17,21 @@ class CustomAuthController extends Controller
                 'message' => 'Пользователь уже создан',
             ], 401);
         }
-        $user = User::create([
-            'login' => $request->input('login'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'name' => $request->input('name'),
-            'surname' => $request->input('surname'),
-        ]);
-        Auth::login($user);
-        $token = $user->createToken('auth_token');
-        return response()->json([
-            'message' => 'Вы успешно зарегистрировались',
-            'content' => $token->plainTextToken,
-        ], 200);
+        if (strlen($request->input('password')) >= 8) {
+            $user = User::create([
+                'login' => $request->input('login'),
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'name' => $request->input('name'),
+                'surname' => $request->input('surname'),
+            ]);
+            Auth::login($user);
+            $token = $user->createToken('auth_token');
+            return response()->json([
+                'message' => 'Вы успешно зарегистрировались',
+                'content' => $token->plainTextToken,
+            ], 200);
+        }
     }
     public function getme()
     {
@@ -53,13 +55,15 @@ class CustomAuthController extends Controller
                 'message' => 'Неверные данные',
             ], 401);
         }
-        $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json([
-            'message' => 'Вы успешно вошли',
-            'content' => $token,
-            'user' => $user
-        ], 200);
+        if (strlen($request->input('password')) >= 8) {
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'message' => 'Вы успешно вошли',
+                'content' => $token,
+                'user' => $user
+            ], 200);
+        }
     }
     public function logout()
     {
