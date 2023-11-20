@@ -9,15 +9,15 @@
         <div class="info">
           <div>
             <div>
-              <h2>96</h2>
+              <h2>{{ count_plus }}</h2>
               <p>Пополнений</p>
             </div>
             <i class="bx bx-wallet" style="color: #37c936; font-size: 60px"></i>
           </div>
           <div>
             <div>
-              <h2>85</h2>
-              <p>Вывод</p>
+              <h2>{{ count_minus }}</h2>
+              <p>Выводов</p>
             </div>
             <i
               class="bx bx-credit-card-front"
@@ -101,13 +101,29 @@ export default {
       text: "",
       file: null,
       news: [],
+      count_plus: 0,
+      count_minus: 0,
     };
   },
   mounted() {
     this.GetUsers();
     this.GetNews();
+    this.CountApplication();
+    this.CountOutput();
   },
   methods: {
+    CountApplication() {
+      axios.get("/api/application/all").then((res) => {
+        let arr = res.data;
+        this.count_plus = arr.length;
+      });
+    },
+    CountOutput() {
+      axios.get("/api/balance/all").then((res) => {
+        let arr = res.data;
+        this.count_minus = arr.length;
+      });
+    },
     GetUsers() {
       axios.get("/api/all_users").then((res) => {
         this.users = res.data;

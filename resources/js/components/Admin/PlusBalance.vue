@@ -161,6 +161,23 @@ export default {
       font-size: 15px;
       text-align: center;
       padding: 10px 0;
+      button:first-child {
+        cursor: pointer;
+        background: green;
+        padding: 5px 20px;
+        margin-right: 20px;
+        border-radius: 7px;
+        color: #fff;
+        border: none;
+      }
+      button:last-child {
+        cursor: pointer;
+        background: red;
+        padding: 5px 20px;
+        border-radius: 7px;
+        color: #fff;
+        border: none;
+      }
     }
     th,
     td {

@@ -121,9 +121,12 @@ export default {
     }
     button {
       background: transparent;
-      padding: 5px 10px;
+      padding: 5px 15px;
       border-radius: 7px;
       cursor: pointer;
+      background: red;
+      color: #fff;
+      border: none;
     }
   }
 }
