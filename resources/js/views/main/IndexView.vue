@@ -216,6 +216,24 @@
           </div>
         </div>
       </div>
+      <div class="modal" v-if="modal2 == true">
+        <div class="modal_main">
+          <div class="modal_header">
+            <h2>Оставить отзыв</h2>
+            <i class="bx bx-x" @click="modal2 = false"></i>
+          </div>
+          <div class="modal_body">
+            <form action="">
+              <label for="">Введите отзыв</label>
+              <input type="text" v-model="text" />
+              <button @click.prevent="CreateReview()">Отправить</button>
+            </form>
+          </div>
+          <div class="modal_footer">
+            <button @click="modal2 = false">Закрыть окно</button>
+          </div>
+        </div>
+      </div>
       <header class="header">
         <div>
           <i class="bx bx-menu" @click="Menu()" style="z-index: 1"></i>
@@ -230,7 +248,7 @@
               <i class="bx bx-bell bx-xs bx-tada"></i>
               <p class="adaptive">Новости</p>
             </li>
-            <li>
+            <li @click="modal2 = true">
               <i class="bx bx-message-detail bx-xs"></i>
               <p class="adaptive">Отзывы</p>
             </li>
@@ -328,11 +346,13 @@ export default {
       name: "",
       mini_modal: false,
       modal: false,
+      modal2: false,
       token: "",
       isActive: false,
       isActive1: false,
       isActive2: false,
       isActive3: false,
+      text: "",
     };
   },
   watch: {
@@ -346,6 +366,11 @@ export default {
   },
   mounted() {},
   methods: {
+    CreateReview() {
+      axios.post("/api/reviews/create", {
+        text: this.text,
+      });
+    },
     Arrow() {
       document.querySelector("li1").toggle("showMenu");
     },
@@ -420,6 +445,28 @@ export default {
     .modal_body {
       display: flex;
       flex-direction: row;
+      form {
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        button {
+          cursor: pointer;
+          padding: 5px 20px;
+          border-radius: 7px;
+          background: #313644;
+          color: white;
+          border: none;
+        }
+        input {
+          padding: 10px;
+          border-radius: 7px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+      }
       .first {
         width: 50%;
         margin-top: 20px;
