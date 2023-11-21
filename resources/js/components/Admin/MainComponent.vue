@@ -29,10 +29,7 @@
               <h2>115</h2>
               <p>Рефералы</p>
             </div>
-            <i
-              class="bx bxs-user-plus"
-              style="color: #0f9aee; font-size: 60px"
-            ></i>
+            <i class="bx bxs-user-plus" style="color: #0f9aee; font-size: 60px"></i>
           </div>
         </div>
         <div class="user-list">
@@ -62,21 +59,9 @@
         <h2>Новости</h2>
         <form action="">
           <input type="text" v-model="title" placeholder="Заголовок" />
-          <textarea
-            cols="30"
-            rows="6"
-            v-model="text"
-            placeholder="Ваш текст"
-          ></textarea>
-          <input
-            type="file"
-            id="file"
-            ref="file"
-            v-on:change="handleFileUpload()"
-          />
-          <button type="submit" @click.prevent="CreateNews()">
-            Опубликовать
-          </button>
+          <textarea cols="30" rows="6" v-model="text" placeholder="Ваш текст"></textarea>
+          <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+          <button type="submit" @click.prevent="CreateNews()">Опубликовать</button>
         </form>
         <div class="news" v-for="ne in news" :key="ne">
           <h3>{{ ne.title }}</h3>
@@ -448,5 +433,22 @@ table tbody tr td button {
 .last .more {
   margin-left: 40px;
   margin-top: 15px !important;
+}
+input[type="file"] {
+}
+input[type="file"]::file-selector-button {
+  margin-right: 20px;
+  margin-top: 10px;
+  border: none;
+  background: #1d1b31;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: #12101b;
 }
 </style>
